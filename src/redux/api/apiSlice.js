@@ -1,17 +1,68 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// Import the dynamic config
+import { config } from "../../config/enviroment";
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_BASE_URL,
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
-      if (token) headers.set("authorization", `Bearer ${token}`);
+    // Use the dynamic configuration
+    baseUrl: config.apiBaseUrl,
+    timeout: 15000, // 15 second timeout
+    prepareHeaders: (headers, { getState, endpoint }) => {
+      // Always set these headers
+      headers.set("Content-Type", "application/json");
+      headers.set("Accept", "application/json");
+
+      // Add auth token for authenticated requests
+      const token = getState().auth?.token;
+      if (token && endpoint !== "forgetPassword") {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+
+      // Debug: Log what we're sending (only in development)
+      if (config.isDevelopment) {
+        console.log("🚀 Request details:", {
+          endpoint: endpoint,
+          baseUrl: config.apiBaseUrl,
+          headers: Object.fromEntries(headers.entries()),
+        });
+      }
+
       return headers;
     },
   }),
   endpoints: (builder) => ({
-    // existing endpoints...
+    // ... other endpoints
+
+    // 📧 Forget Password - explicitly no auth needed
+    forgetPassword: builder.mutation({
+      query: (data) => {
+        console.log("📧 Forget password request:", {
+          data: data,
+          url: "/auth/forget-password",
+          method: "POST",
+          timestamp: new Date().toISOString(),
+        });
+        return {
+          url: "/auth/forget-password",
+          method: "POST",
+          body: data,
+        };
+      },
+      transformResponse: (response, meta, arg) => {
+        console.log("✅ Success response:", response);
+        return response;
+      },
+      transformErrorResponse: (response, meta, arg) => {
+        console.error("❌ Error response:", response);
+        console.error("❌ Response status:", response.status);
+        console.error("❌ Response data:", response.data);
+        console.error("❌ Request that failed:", arg);
+        return response;
+      },
+    }),
+
+    // ... other endpoints
     signup: builder.mutation({
       query: (data) => ({
         url: "/admin/create-user",
@@ -30,9 +81,8 @@ export const apiSlice = createApi({
       query: () => "/auth/me",
     }),
     getUsers: builder.query({
-      query: () => "/admin/users", // backend route for fetching all users
+      query: () => "/admin/users",
     }),
-    // 🔑 Change Password
     changePassword: builder.mutation({
       query: (data) => ({
         url: "/auth/change-password",
@@ -40,17 +90,6 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
-
-    // 📧 Forget Password
-    forgetPassword: builder.mutation({
-      query: (data) => ({
-        url: "/auth/forget-password",
-        method: "POST",
-        body: data,
-      }),
-    }),
-
-    // 🔄 Reset Password
     resetPassword: builder.mutation({
       query: (data) => ({
         url: "/auth/reset-password",

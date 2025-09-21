@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import {
   useLoginMutation,
   useForgetPasswordMutation,
-} from "../redux/api/apiSlice";
+} from "../Redux/api/apiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../redux/api/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -44,11 +44,62 @@ export default function Login() {
     }
 
     try {
-      await forgetPassword({ email: forgotPasswordEmail }).unwrap();
-      setForgotPasswordSuccess(true);
+      console.log("🧪 Testing with raw fetch first...");
+
+      // Test with raw fetch (like Postman)
+      const rawResponse = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/auth/forget-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ email: forgotPasswordEmail }),
+        }
+      );
+
+      console.log(
+        "🧪 Raw fetch response:",
+        rawResponse.status,
+        rawResponse.statusText
+      );
+      const rawData = await rawResponse.text();
+      console.log("🧪 Raw fetch data:", rawData);
+
+      if (rawResponse.ok) {
+        console.log("✅ Raw fetch worked! Using RTK Query...");
+
+        // If raw fetch works, use RTK Query
+        const result = await forgetPassword({
+          email: forgotPasswordEmail,
+        }).unwrap();
+        console.log("✅ RTK Query success:", result);
+        setForgotPasswordSuccess(true);
+      } else {
+        throw new Error(`Raw fetch failed: ${rawResponse.status} ${rawData}`);
+      }
     } catch (err) {
-      console.error(err);
-      alert(err?.data?.message || "Failed to send reset email");
+      console.error("❌ Forget password error:", err);
+      console.error("❌ Error details:", {
+        status: err.status,
+        data: err.data,
+        message: err.message,
+      });
+
+      let errorMessage = "Failed to send reset email";
+      if (err.data?.message === "Email error") {
+        errorMessage =
+          "Email service is currently unavailable. Please try again later or contact support.";
+      } else if (err.data?.message) {
+        errorMessage = err.data.message;
+      } else if (err.message) {
+        errorMessage = err.message;
+      } else if (err.status === 500) {
+        errorMessage = "Server error occurred. Please try again later.";
+      }
+
+      alert(errorMessage);
     }
   };
 

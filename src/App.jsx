@@ -20,7 +20,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       {/* <Route path="/signup" element={<Signup />} /> */}
       <Route path="*" element={<NotFound />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
 
       {/* Protected layout with Navbar */}
       <Route
