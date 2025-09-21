@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../Redux/api/authSlice";
+import { selectCurrentUser } from "../redux/api/authSlice";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Signup from "./CreateUser";

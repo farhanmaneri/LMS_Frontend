@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser, logout } from "../redux/api/authSlice";
 import CreateUser from "../pages/CreateUser";
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   const user = useSelector(selectCurrentUser);
@@ -22,8 +23,11 @@ export default function Navbar() {
   return (
     <>
       <nav className="bg-gray-800 text-white px-6 py-3 flex justify-between items-center">
-        <h1 className="text-lg font-bold">LMS Dashboard</h1>
-
+        <h1 className="text-lg font-bold">
+          <NavLink to="/dashboard" className="hover:text-blue-500">
+            LMS Dashboard
+          </NavLink>
+        </h1>
         <div className="flex gap-4 items-center">
           {user?.role === "admin" && (
             <button
