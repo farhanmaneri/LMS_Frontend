@@ -41,7 +41,7 @@ export default function Sidebar() {
             `${linkClasses} ${isActive ? "bg-blue-200 font-semibold" : ""}`
           }
         >
-          📑 Reports
+          📑 Result
         </NavLink>
       </nav>
     </aside>
