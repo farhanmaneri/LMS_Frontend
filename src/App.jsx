@@ -19,7 +19,6 @@ function App() {
       {/* Public routes */}
       <Route path="/login" element={<Login />} />
       {/* <Route path="/signup" element={<Signup />} /> */}
-      <Route path="*" element={<NotFound />} />
       <Route path="/reset-password" element={<ResetPassword />} />
 
       {/* Protected layout with Navbar */}
@@ -35,6 +34,7 @@ function App() {
         <Route path="/change-password" element={<ChangePassword />} />
 
         {/* add more like reports, settings, etc */}
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
