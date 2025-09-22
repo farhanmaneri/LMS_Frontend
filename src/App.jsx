@@ -10,8 +10,10 @@ import Layout from "./components/Layout";
 import ChangePassword from "./pages/ChangePassword";
 import NotFound from "./components/NotFound";
 import ResetPassword from "./pages/ResetPassword";
-
+import { useParams } from "react-router-dom";
 function App() {
+    const { token } = useParams();  // ✅ token comes from /reset-password/:token
+
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
@@ -20,7 +22,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       {/* <Route path="/signup" element={<Signup />} /> */}
       <Route path="*" element={<NotFound />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
 
       {/* Protected layout with Navbar */}
       <Route
