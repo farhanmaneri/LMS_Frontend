@@ -32,6 +32,29 @@ export const apiSlice = createApi({
     getUsers: builder.query({
       query: () => "/admin/users", // backend route for fetching all users
     }),
+     getTeacherClasses: builder.query({
+    query: () => "/teacher/classes",
+  }),
+  getTeacherExams: builder.query({
+    query: () => "/teacher/exams",
+  }),
+
+  // 🎓 Student APIs
+  getStudentSubjects: builder.query({
+    query: () => "/student/subjects",
+  }),
+  getStudentResults: builder.query({
+    query: () => "/student/results",
+  }),
+
+  // 👑 Admin APIs
+  getUsers: builder.query({
+    query: () => "/admin/users",
+  }),
+  getReports: builder.query({
+    query: () => "/admin/reports",
+  }),
+
     // 🔑 Change Password
     changePassword: builder.mutation({
       query: (data) => ({
@@ -62,11 +85,16 @@ export const apiSlice = createApi({
 });
 
 export const {
-  useSignupMutation,
+   useSignupMutation,
   useLoginMutation,
   useGetProfileQuery,
   useChangePasswordMutation,
   useForgetPasswordMutation,
   useResetPasswordMutation,
   useGetUsersQuery,
+  useGetTeacherClassesQuery,
+  useGetTeacherExamsQuery,
+  useGetStudentSubjectsQuery,
+  useGetStudentResultsQuery,
+  useGetReportsQuery,
 } = apiSlice;
