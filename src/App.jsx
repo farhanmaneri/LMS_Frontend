@@ -10,6 +10,8 @@ import Layout from "./components/Layout";
 import ChangePassword from "./pages/ChangePassword";
 import NotFound from "./components/NotFound";
 import ResetPassword from "./pages/ResetPassword";
+import ResultList from "./components/ResultList";
+import ResultForm from "./components/ResultForm";
 function App() {
 
   return (
@@ -32,6 +34,12 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/users" element={<Users />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        {/* Role-based extra routes */}
+        <Route path="/classes" element={<div>Teacher Classes Page</div>} />
+        <Route path="/exams" element={<div>Teacher Exams Page</div>} />
+        <Route path="/subjects" element={<div>Student Subjects Page</div>} />
+        <Route path="/results/add" element={<ResultForm />} />
+        <Route path="/student/results" element={<ResultList />} />
 
         {/* add more like reports, settings, etc */}
         <Route path="*" element={<NotFound />} />

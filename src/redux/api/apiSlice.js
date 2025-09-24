@@ -32,28 +32,33 @@ export const apiSlice = createApi({
     getUsers: builder.query({
       query: () => "/admin/users", // backend route for fetching all users
     }),
-     getTeacherClasses: builder.query({
-    query: () => "/teacher/classes",
-  }),
-  getTeacherExams: builder.query({
-    query: () => "/teacher/exams",
-  }),
+    getTeacherClasses: builder.query({
+      query: () => "/teacher/classes",
+    }),
+    getTeacherExams: builder.query({
+      query: () => "/teacher/exams",
+    }),
 
-  // 🎓 Student APIs
-  getStudentSubjects: builder.query({
-    query: () => "/student/subjects",
-  }),
-  getStudentResults: builder.query({
-    query: () => "/student/results",
-  }),
+    getStudentResults: builder.query({
+      query: () => "/student/results", // backend finds student by token
+      providesTags: ["Result"],
+    }),
+    addResult: builder.mutation({
+      query: (data) => ({
+        url: "/results", // admin/teacher adds result
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Result"],
+    }),
 
-  // 👑 Admin APIs
-  getUsers: builder.query({
-    query: () => "/admin/users",
-  }),
-  getReports: builder.query({
-    query: () => "/admin/reports",
-  }),
+    // 👑 Admin APIs
+    getUsers: builder.query({
+      query: () => "/admin/users",
+    }),
+    getReports: builder.query({
+      query: () => "/admin/reports",
+    }),
 
     // 🔑 Change Password
     changePassword: builder.mutation({
@@ -94,6 +99,7 @@ export const {
   useGetUsersQuery,
   useGetTeacherClassesQuery,
   useGetTeacherExamsQuery,
+  useAddResultMutation,
   useGetStudentSubjectsQuery,
   useGetStudentResultsQuery,
   useGetReportsQuery,
