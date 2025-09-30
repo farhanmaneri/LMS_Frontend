@@ -39,8 +39,12 @@ export const apiSlice = createApi({
       query: () => "/teacher/exams",
     }),
 
+    getStudentsResults: builder.query({
+      query: () => "/results", // backend finds student by token
+      providesTags: ["Result"],
+    }),
     getStudentResults: builder.query({
-      query: () => "/student/results", // backend finds student by token
+      query: (id) => `/results/${id}`, // student
       providesTags: ["Result"],
     }),
     addResult: builder.mutation({
@@ -102,5 +106,6 @@ export const {
   useAddResultMutation,
   useGetStudentSubjectsQuery,
   useGetStudentResultsQuery,
+  useGetStudentsResultsQuery,
   useGetReportsQuery,
 } = apiSlice;

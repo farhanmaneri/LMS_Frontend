@@ -43,6 +43,7 @@ export default function Sidebar() {
       { to: "/classes", label: "Classes", icon: BookOpen },
       { to: "/exams", label: "Exams", icon: FileText },
       { to: "/results/add", label: "Add Results", icon: BarChart3 },
+      { to: "student/results", label: "Results", icon: BarChart3 },
     ],
     teacher: [
       { to: "/dashboard", label: "Dashboard", icon: Home },
@@ -177,25 +178,9 @@ export default function Sidebar() {
                       : "text-gray-300 hover:text-white hover:bg-gray-700/50"
                   }`
                 }
-                onClick={() => {
-                  if (window.innerWidth < 1024) {
-                    setIsOpen(false);
-                  }
-                }}
               >
-                <IconComponent
-                  className={`w-5 h-5 transition-colors duration-200`}
-                />
+                <IconComponent className="w-5 h-5 transition-colors duration-200" />
                 <span className="truncate">{link.label}</span>
-
-                {/* Active indicator */}
-                <div className="ml-auto">
-                  {({ isActive }) =>
-                    isActive && (
-                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-                    )
-                  }
-                </div>
               </NavLink>
             );
           })}

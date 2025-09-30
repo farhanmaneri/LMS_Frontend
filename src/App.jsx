@@ -12,6 +12,7 @@ import NotFound from "./components/NotFound";
 import ResetPassword from "./pages/ResetPassword";
 import ResultList from "./components/ResultList";
 import ResultForm from "./components/ResultForm";
+import StudentResultsPage from "./pages/StudentResultsPage";
 function App() {
 
   return (
@@ -39,7 +40,7 @@ function App() {
         <Route path="/exams" element={<div>Teacher Exams Page</div>} />
         <Route path="/subjects" element={<div>Student Subjects Page</div>} />
         <Route path="/results/add" element={<ResultForm />} />
-        <Route path="/student/results" element={<ResultList />} />
+        <Route path="/student/results" element={<StudentResultsPage />} />
 
         {/* add more like reports, settings, etc */}
         <Route path="*" element={<NotFound />} />
