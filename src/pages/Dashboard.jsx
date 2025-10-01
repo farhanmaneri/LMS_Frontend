@@ -8,8 +8,8 @@ import {
   useGetUsersQuery,
   useGetTeacherClassesQuery,
   useGetTeacherExamsQuery,
-  useGetStudentSubjectsQuery,
-  useGetStudentResultsQuery,
+useGetMyResultQuery,
+  useGetStudentsResultsQuery,
 } from "../redux/api/apiSlice";
 
 export default function Dashboard() {
@@ -29,7 +29,7 @@ export default function Dashboard() {
   // const { data: subjects } = useGetStudentSubjectsQuery(undefined, {
   //   skip: user?.role !== "student",
   // });
-  const { data: results } = useGetStudentResultsQuery(undefined, {
+  const { data: results } = useGetStudentsResultsQuery(undefined, {
     skip: user?.role !== "student",
   });
 
