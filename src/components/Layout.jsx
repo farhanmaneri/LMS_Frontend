@@ -12,18 +12,17 @@ export default function Layout() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      {/* Main content area with sidebar */}
       <div className="flex pt-16">
         {/* Sidebar - only show if user is logged in */}
         {user && <Sidebar />}
 
         {/* Main content */}
-        <main className={`flex-1 ${user ? "lg:ml-0" : ""}`}>
-          <div
-            className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ${
-              user ? "lg:ml-64" : ""
-            }`}
-          >
+        <main
+          className={`flex-1 px-4 sm:px-6 lg:px-8 py-8 ${
+            user ? "lg:ml-64" : ""
+          }`}
+        >
+          <div className="max-w-7xl mx-auto">
             <Outlet />
           </div>
         </main>
